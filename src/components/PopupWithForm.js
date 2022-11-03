@@ -3,9 +3,12 @@ import React from "react";
 
 function PopupWithForm(props) {
     return(
-        <div className={`popup popup_edit_${props.name}`}>
+        <div className={`popup popup_edit_${props.name} ${!props.isOpen ? "" : "popup_is-opened"}`}>
         <div className="popup__content">
-          <button aria-label="Закрыть диалоговое окно" type="button" className="popup__close"></button>
+          <button 
+            aria-label="Закрыть диалоговое окно"
+            type="button"
+            className="popup__close" onClick={props.onClose}></button>
           <h2 className="popup__title">{props.title}</h2>
           <form 
             name={`edit-${props.name}`}

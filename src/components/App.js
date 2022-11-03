@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
@@ -6,14 +6,45 @@ import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
 function App() {
+
+    const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+    const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+    const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+    
+    function handleEditAvatarClick () {
+      setIsEditAvatarPopupOpen(true);
+    }   
+
+    function handleEditProfileClick () {
+      setIsEditProfilePopupOpen(true);
+    }
+
+    function handleAddPlaceClick () {
+      setIsAddPlacePopupOpen(true);
+    }
+
+    function closeAllPopups () {
+      setIsEditAvatarPopupOpen(false);
+      setIsEditProfilePopupOpen(false);
+      setIsAddPlacePopupOpen(false);
+    }
+
+
   return (
     
     <div className="page">
       <Header/>
-      <Main/>
+      <Main 
+        onEditAvatar={handleEditAvatarClick}       
+        onEditProfile={handleEditProfileClick}
+        onAddPlace={handleAddPlaceClick}
+       />
       <Footer/>
 
-      
+      <PopupWithForm isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} />
+      <PopupWithForm isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
+      <PopupWithForm isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} />
+
       <div className="popup popup_edit_profile">
         <div className="popup__content">
           <button aria-label="Закрыть диалоговое окно" type="button" className="popup__close"></button>

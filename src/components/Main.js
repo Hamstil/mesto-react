@@ -1,28 +1,12 @@
 import React from "react";
 import profileImg from '../images/profil.jpg';
 
-function Main() {
-
-    function handleEditAvatarClick () {        
-            const popupEditAvatar = document.querySelector(".popup_edit_avatar");
-            popupEditAvatar.classList.add("popup_is-opened");        
-    }   
-
-    function handleEditProfileClick () {       
-            const popupEditProfile = document.querySelector(".popup_edit_profile");
-            popupEditProfile.classList.add("popup_is-opened");       
-    }
-
-    function handleAddPlaceClick () {        
-            const popupEditCard = document.querySelector(".popup_edit_card");
-            popupEditCard.classList.add("popup_is-opened");    
-    }
-
+function Main(props) {
 
     return(
       <main className="content">
         <section className="profile content__profile">
-          <div className="profile__image" onClick={handleEditAvatarClick}>
+          <div className="profile__image" onClick={props.onEditAvatar}>
             <img src={profileImg} alt="аватар" className="profile__avatar"/>
           </div>
           <div className="profile__info">
@@ -30,9 +14,9 @@ function Main() {
               <h1 className="profile__title">Антон</h1>
               <p className="profile__subtitle">программист</p>
             </div>
-            <button aria-label="Изменить профиль" type="button" className="profile__edit-button" onClick={handleEditProfileClick}></button>
+            <button aria-label="Изменить профиль" type="button" className="profile__edit-button" onClick={props.onEditProfile}></button>
           </div>
-          <button aria-label="Добавить карточку" type="button" className="profile__add-card-button" onClick={handleAddPlaceClick}></button>
+          <button aria-label="Добавить карточку" type="button" className="profile__add-card-button" onClick={props.onAddPlace}></button>
         </section>
         <section aria-label="Карточки мест" className="section content__section">
           <ul className="elements-content">
