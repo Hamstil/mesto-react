@@ -8,14 +8,6 @@ const objectFromValidation = {
   errorClass: 'popup-form__error_active'
 };
 
-const configApi = {
-  url: 'https://mesto.nomoreparties.co/v1/cohort-51',
-  headers: {
-    authorization: "1b483a2a-ec99-4b2e-b31a-7f2b36b71675",
-    "content-type": "application/json"
-  }
-}
-
 const popupEditProfile = ".popup_edit_profile";
 const popupEditCard = ".popup_edit_card";
 const popupViewImage = ".popup_view_image";
