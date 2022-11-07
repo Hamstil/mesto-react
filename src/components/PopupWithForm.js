@@ -21,11 +21,11 @@ function PopupWithForm(props) {
         >
           {props.children}
           <button
-            aria-label="Кнопка сохранить"
+            aria-label={`Кнопка ${props.textButton}`}
             type="submit"
             className="popup-form__button"
           >
-            Сохранить
+            {props.textButton}
           </button>
         </form>
       </div>
