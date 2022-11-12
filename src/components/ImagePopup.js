@@ -1,10 +1,10 @@
 import React from "react";
 
-function ImagePopup(props) {
+function ImagePopup({ card, isOpen, onClose }) {
   return (
     <div
       className={`popup popup_view_image popup_theme_dark ${
-        props.isOpen ? "popup_is-opened" : ""
+        isOpen ? "popup_is-opened" : ""
       }`}
     >
       <div className="popup__content-image">
@@ -12,10 +12,10 @@ function ImagePopup(props) {
           aria-label="Закрыть диалоговое окно"
           type="button"
           className="popup__close"
-          onClick={props.onClose}
+          onClick={onClose}
         ></button>
-        <img src={props.card.link} alt={props.card.name} className="popup__image" />
-        <p className="popup__text">{props.card.name}</p>
+        <img src={card.link} alt={card.name} className="popup__image" />
+        <p className="popup__text">{card.name}</p>
       </div>
     </div>
   );
