@@ -1,17 +1,46 @@
 import React from "react";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
-function Card({ card, onCardClick }) {
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
+  // Контекст пользователя
+  const currentUser = React.useContext(CurrentUserContext);
+
+  // Определяем владельца карточки
+  const isOwn = card.owner._id === currentUser._id;
+
+  // Определяем есть ли у карточки лайк, поставленный текущим пользователем
+  const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+  // Переменная className, для кнопки лайка
+  const cardLikeButtonClassName = `element__like ${
+    isLiked && "element__like_enable"
+  }`;
+
+  // Функция клика по картинке, поднятия стейта
   function handleCardClick() {
     onCardClick(card);
   }
 
+  // Функция клика по лайку, поднятие стейта
+  function handleCardLike() {
+    onCardLike(card);
+  }
+
+  // Функция удаления крточки, поднятие стейта
+  function handleCardDelete() {
+    onCardDelete(card);
+  }
+
   return (
     <li className="element">
-      <button
-        aria-label="кнопка удаления"
-        type="button"
-        className="element__trash"
-      ></button>
+      {isOwn && (
+        <button
+          aria-label="кнопка удаления"
+          type="button"
+          className="element__trash"
+          onClick={handleCardDelete}
+        ></button>
+      )}
       <img
         src={card.link}
         alt={card.name}
@@ -24,9 +53,12 @@ function Card({ card, onCardClick }) {
           <button
             aria-label="кнопка лайка"
             type="button"
-            className="element__like"
+            className={cardLikeButtonClassName}
+            onClick={handleCardLike}
           ></button>
-          <p className="element__count">{card.likes.length}</p>
+          <p className="element__count" onClick={handleCardLike}>
+            {card.likes.length}
+          </p>
         </div>
       </div>
     </li>
