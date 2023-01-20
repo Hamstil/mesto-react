@@ -8,6 +8,7 @@ function PopupWithForm({
   textButton,
   children,
   onSubmit,
+  isValid,
 }) {
   return (
     <div
@@ -30,7 +31,10 @@ function PopupWithForm({
           <button
             aria-label={`Кнопка ${textButton}`}
             type="submit"
-            className="popup-form__button"
+            className={`popup-form__button ${
+              !isValid ? "popup-form__button_disabled" : ""
+            }`}
+            disabled={!isValid}
           >
             {textButton}
           </button>

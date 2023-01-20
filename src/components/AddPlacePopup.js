@@ -1,26 +1,39 @@
 import React, { useEffect, useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
+import useFormWithValidation from "../hooks/useFormWithValidation";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
   // Добавление рефов на инпуты
   const nameRef = useRef();
   const linkRef = useRef();
 
+  // вычитываем переменные и методы из кастомного хука
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormWithValidation({
+      name: "",
+      link: "",
+    });
+
+  const { name, link } = values;
+
   // Метод по нажатию на кнопку создать
   function handleSubmit(e) {
     // Отмена действия по нажатию на кнопку
     e.preventDefault();
 
-    onAddPlace({
-      name: nameRef.current.value,
-      link: linkRef.current.value,
-    });
+    if (isValid) {
+      onAddPlace({
+        name: nameRef.current.value,
+        link: linkRef.current.value,
+      });
+    }
   }
 
   // Метод отчистки инпутов при открытии попапа
   useEffect(() => {
-    nameRef.current.value = "";
-    linkRef.current.value = "";
+    if (!isOpen) {
+      resetForm();
+    }
   }, [isOpen]);
 
   return (
@@ -31,6 +44,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
       onSubmit={handleSubmit}
       isOpen={isOpen}
       onClose={onClose}
+      isValid={isValid}
     >
       <label className="popup-form__field">
         <input
@@ -38,13 +52,17 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
           type="text"
           name="name"
           ref={nameRef}
+          value={name || ""}
+          onChange={handleChange}
           placeholder="Введите название места"
           className="popup-form__input popup-form__input_text_name-place"
           minLength="2"
           maxLength="30"
           required
         />
-        <span className="popup-form__error place-name-error"></span>
+        <span className="popup-form__error place-name-error popup-form__error_active">
+          {errors.name}
+        </span>
       </label>
       <label className="popup-form__field">
         <input
@@ -52,11 +70,15 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
           type="url"
           name="link"
           ref={linkRef}
+          value={link || ""}
+          onChange={handleChange}
           placeholder="Введите ссылку на изображение"
           className="popup-form__input popup-form__input_text_place-link"
           required
         />
-        <span className="popup-form__error place-link-error"></span>
+        <span className="popup-form__error place-link-error popup-form__error_active">
+          {errors.link}
+        </span>
       </label>
     </PopupWithForm>
   );
