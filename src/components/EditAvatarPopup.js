@@ -1,18 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
-import useFormWithValidation from "../hooks/useFormWithValidation";
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   // Реф аватара
   const avatarRef = useRef();
 
-  // вычитываем переменные и методы из кастомного хука
-  const { values, handleChange, errors, isValid, resetForm } =
-    useFormWithValidation({
-      avatar: "",
-    });
-
-  const { avatar } = values;
+  // состояние ошибки и валидности
+  const [errors, setErrors] = useState("");
+  const [isValid, setIsValid] = useState(false);
 
   // Обработчик нажатия на кнопку
   function handleSubmit(e) {
@@ -30,8 +25,15 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   // Отчистка инпута
   useEffect(() => {
     avatarRef.current.value = "";
-    resetForm();
+    setErrors("");
+    setIsValid(false);
   }, [isOpen]);
+
+  // изменения состояний при вводе в форму
+  const handleChange = (event) => {
+    setErrors(event.target.validationMessage);
+    setIsValid(event.target.closest("form").checkValidity());
+  };
 
   return (
     <PopupWithForm
@@ -49,14 +51,13 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
           type="url"
           name="avatar"
           ref={avatarRef}
-          value={avatar || ""}
           onChange={handleChange}
           placeholder="Введите ссылку на изображение"
           className="popup-form__input popup-form__input_text_link-avatar"
           required
         />
         <span className="popup-form__error avatar-link-error popup-form__error_active">
-          {errors.avatar}
+          {errors}
         </span>
       </label>
     </PopupWithForm>

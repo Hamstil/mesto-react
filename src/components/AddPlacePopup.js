@@ -1,12 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import useFormWithValidation from "../hooks/useFormWithValidation";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
-  // Добавление рефов на инпуты
-  const nameRef = useRef();
-  const linkRef = useRef();
-
   // вычитываем переменные и методы из кастомного хука
   const { values, handleChange, errors, isValid, resetForm } =
     useFormWithValidation({
@@ -23,8 +19,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
 
     if (isValid) {
       onAddPlace({
-        name: nameRef.current.value,
-        link: linkRef.current.value,
+        name: name,
+        link: link,
       });
     }
   }
@@ -51,7 +47,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
           id="place-name"
           type="text"
           name="name"
-          ref={nameRef}
           value={name || ""}
           onChange={handleChange}
           placeholder="Введите название места"
@@ -69,7 +64,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
           id="place-link"
           type="url"
           name="link"
-          ref={linkRef}
           value={link || ""}
           onChange={handleChange}
           placeholder="Введите ссылку на изображение"
